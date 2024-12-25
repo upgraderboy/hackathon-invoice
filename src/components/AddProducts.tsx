@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AddProductSchema } from "@/schemas";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { addProduct } from "@/actions/addProduct";
@@ -21,31 +21,26 @@ import { ChangeEvent, useRef, useState, useTransition } from "react";
 import { Button } from "./ui/button";
 import CardWrapper from "./CardWrapper";
 import MoneyInput from "./ui/money-input";
-import Image from "next/image";
-
 
 
 const AddProduct = () => {
-  // const [selectedFile, setSelectedFile] = useState<string | null>(null);
-  // const [barcode, setBarcode] = useState("CODE128");
+  const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [error, setError] = useState<string | undefined>(undefined);
   const [success, setSuccess] = useState<string | undefined>(undefined);
+  const [websiteDomain, setWebsiteDomain] = useState('')
   const [isPending, startTransition] = useTransition();
-  // const barcodeRef = useRef('');
-  // const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const file = e.target.files?.[0];
+  const barcodeRef = useRef('');
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
 
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setSelectedFile(reader.result as string);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
-  // const handleRemoveClick = () => {
-  //   setSelectedFile(null);
-  // };
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedFile(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   const form = useForm<z.infer<typeof AddProductSchema>>({
     resolver: zodResolver(AddProductSchema),
     defaultValues: {
@@ -153,9 +148,9 @@ const AddProduct = () => {
               )
             }} />
 
-            {/* <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center">
               <img ref={inputRef} />
-            </div> */}
+            </div>
 
 
           </div>
